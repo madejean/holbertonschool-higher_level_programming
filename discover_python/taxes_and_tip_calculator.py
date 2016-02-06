@@ -3,8 +3,8 @@ This program is written in Python to calculate the cost of your meal with taxes 
 
 print "Welcome to the taxes and tip calculator!"
 meal=float(raw_input("What is the price before tax? "))
-tax=float (raw_input ("What are the taxes?(in %)"))
-tip=float (raw_input ("What do you want to tip?(in %)"))
+tax=float (raw_input ("What are the taxes? (in %) "))
+tip=float (raw_input ("What do you want to tip? (in %) "))
 
 
 meal= meal+ (tax/100)*meal
