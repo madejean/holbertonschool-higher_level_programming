@@ -10,25 +10,21 @@ var options = {
 }
 
 var req = https.request(options, function(res) {
-    res.on('data',  function(d)  {
-    console.log("Some data was received")
-    
-    });
-
-});
-req.end();
-
-req.on('error', function(e) {
-    console.error(e);
-})
-
-function streamToString(d, cb) {
+   function streamToString(stream, cb) {
     const chunks = [];
     stream.on('data', (chunk) => {
-	chunks.push(chunk);
+        chunks.push(chunk);
     });
     stream.on('end', () => {
-	cb(chunks.join(''));
+        cb(chunks.join(''));
     });
-}
+});
+       
+       streamToString(res, function(jsonString))
+	       { 
+		   console.log(typeof jsonString);
+		   console.log(jsonString);
+	       }
 
+req.end();
+  
