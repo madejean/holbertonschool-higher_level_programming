@@ -20,12 +20,16 @@ var req = https.request(options, function(res) {
     });
    }    
 
+    var fs = require('fs');
     streamToString(res, function(jsonString)
-	       { 
-		   console.log(typeof jsonString);
-		   console.log(jsonString);
-	       }
-		     );
-});   
+		   {
+		       fs.writeFile("/tmp/22", jsonString, function(err){
+				    if (err) {
+					return console.log(err);
+				    }
+				    console.log("The file was saved!");
+		       });
+		   });
+});
 req.end();
   
