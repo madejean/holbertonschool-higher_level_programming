@@ -1,5 +1,4 @@
 require 'httpclient'
-require "uri"
 
 extheaders = {
   'User-Agent' => 'Holberton_School',

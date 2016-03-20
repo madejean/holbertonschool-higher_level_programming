@@ -1,5 +1,5 @@
 require 'httpclient'
-require "uri"
+require 'json'
 
 extheaders = {
   'User-Agent' => 'Holberton_School',
@@ -7,4 +7,6 @@ extheaders = {
 }
 
 clnt = HTTPClient.new
-puts clnt.get_content('https://api.github.com/search/repositories?q=language:ruby&sort=stars&order=desc')
+list = clnt.get_content('https://api.github.com/search/repositories?q=language:ruby&sort=stars&order=desc')
+ parse = JSON.parse(list)
+puts parse['items'].map{ |name| name['full_name'] }.join("\n")
