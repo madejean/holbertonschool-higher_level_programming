@@ -154,7 +154,7 @@ def save_to_file(list, filename):
       strings  = []
       for i in list:
           strings.append(i.json())
-          outfile.write(json.dumps(strings, indent = 2))
+          outfile.write(json.dumps(strings))
 
 def load_from_file(filename):
     with open(filename) as data_file:
