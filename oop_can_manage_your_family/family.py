@@ -140,8 +140,9 @@ class Baby(Person):
                 p.last_name = self.last_name
     def can_have_child(self):
         return False
+    '''return a Baby object and add to children the new id on self and p'''
     def has_child_with(self, p, id, first_name, date_of_birth, genre, eyes_color = ''):
-        if p is None or p.__class.__name__ != 'Adult' and p.__class__.name != 'Senior':
+        if p is None or p.kind != 'Adult' and p.kind != 'Senior':
             raise Exception("p is not an Adult of Senior")
         if (not p.can_have_child()) or(not self.can_have_child()):
             raise Exception("Can't have baby")        
@@ -159,7 +160,6 @@ class Baby(Person):
         if id not in self.children:
             self.children.append(id)        
         return b
-
     '''link 2 persons by adding c.get_id() to self.children'''
     def adopt_child(self, c):
        if (not self.can_have_child()):
@@ -201,6 +201,7 @@ class Teenager(Person):
                 p.last_name = self.last_name
     def can_have_child(self):
         return False
+    '''return a Baby object and add to children the new id on self and p'''
     def has_child_with(self, p, id, first_name, date_of_birth, genre, eyes_color = ''):
         if p is None or p.kind != 'Adult' and p.kind !='Senior':
             raise Exception("p is not an Adult of Senior")
@@ -219,8 +220,6 @@ class Teenager(Person):
         if id not in self.children:
             self.children.append(id)        
         return Baby(id,first_name,date_of_birth,genre,eyes_color)
-
- 
     '''link 2 persons by adding c.get_id() to self.children'''
     def adopt_child(self, c):
        if (not self.can_have_child()):
@@ -260,6 +259,7 @@ class Adult(Person):
                 p.last_name = self.last_name
     def can_have_child(self):
         return True
+    '''return a Baby object and add to children the new id on self and p'''
     def has_child_with(self, p, id, first_name, date_of_birth, genre, eyes_color = ''):
         if p is None or p.__class__.__name__ != 'Adult' and p.__class__.__name__ !='Senior':
             raise Exception("p is not an Adult of Senior")
@@ -273,14 +273,11 @@ class Adult(Person):
             eyes_color = 'Blue'
         if p.get_eyes_color() == 'Brown' :
             eyes_color = 'Brown'
-
         if id not in p.children:
             p.children.append(id)
         if id not in self.children:
             self.children.append(id)        
         return Baby(id,first_name,date_of_birth,genre,eyes_color)
-
- 
     '''link 2 persons by adding c.get_id() to self.children'''
     def adopt_child(self, c):
        if (not self.can_have_child()):
@@ -320,7 +317,8 @@ class Senior(Person):
                 p.last_name = self.last_name
     def can_have_child(self):
         return False
-    def has_child_with(self, p, id, first_name, date_of_birth, genre, eyes_color = ''):
+    '''return a Baby object and add to children the new id on self and p'''
+    def has_child_with(self, p, id, first_name, date_of_birth, genre, eyes_color = ""):
         if p is None or p.kind != 'Adult' and p.kind !='Senior':
             raise Exception("p is not an Adult of Senior")
         if not p.can_have_child() or not self.can_have_child():
@@ -338,8 +336,6 @@ class Senior(Person):
         if id not in self.children:
             self.children.append(id)        
         return Baby(id,first_name,date_of_birth,genre,eyes_color)
-
- 
     '''link 2 persons by adding c.get_id() to self.children'''
     def adopt_child(self, c):
        if (not self.can_have_child()):
