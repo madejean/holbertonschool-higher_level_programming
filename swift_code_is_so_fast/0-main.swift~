@@ -1,5 +1,0 @@
-let string = "Hello Holberton school!"
-let char = string.characters
-let reversedchar = char.reverse()
-let reversedstr = String(reversedchar)
-print (reversedstr)
