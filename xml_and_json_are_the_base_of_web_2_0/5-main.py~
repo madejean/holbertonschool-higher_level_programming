@@ -11,11 +11,6 @@ cars = []
 brands = []
 nb_doors = 0
 
-'''DOM'''
-doc = minidom.Document()
-cars = doc.createElement("cars")
-doc.appendChild(cars)
-
 for i in file_content:
     car = Car(i)
     brand = car.get_brand()
@@ -24,6 +19,11 @@ for i in file_content:
     nb_doors += nb
     xml_car = car.to_xml_node(doc)
     cars.appendChild(xml_car)
+
+'''DOM'''
+doc = minidom.Document()
+cars = doc.createElement("cars")
+doc.appendChild(cars)
 
 print len(brands)
 print nb_doors
