@@ -7,7 +7,7 @@ file = open("5-main.json")
 content = file.read()
 file_content = json.loads(content)
 
-cars = [] 
+cars_obj = []
 brands = []
 nb_doors = 0
 
@@ -17,15 +17,17 @@ cars = doc.createElement("cars")
 doc.appendChild(cars)
 
 for i in file_content:
-    car = Car(i)
-    brand = car.get_brand()
+  car = Car(i)
+  cars_obj.append(car)
+  brand = car.get_brand()
+  if not brand in brands:
     brands.append(brand)
-    nb = car.get_nb_doors()
-    nb_doors += nb
-    xml_car = car.to_xml_node(doc)
-    cars.appendChild(xml_car)
+  nb = car.get_nb_doors()
+  nb_doors += nb
+  xml_car = car.to_xml_node(doc)
+  cars.appendChild(xml_car)
 
 print len(brands)
 print nb_doors
-print cars[3]
+print cars_obj[3]
 print doc.toxml(encoding='utf-8')

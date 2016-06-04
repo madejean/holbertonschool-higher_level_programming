@@ -1,3 +1,4 @@
+
 import json
 from xml.dom.minidom import Document
 
@@ -53,8 +54,7 @@ class Car:
     """returns a DOM element"""
     def to_xml_node(self, doc):
         car = doc.createElement('car')
-        car.setAttribute('nb_doors', str(self.__nb_doors))
-        doc.appendChild(car)        
+        car.setAttribute('nb_doors', str(self.__nb_doors))     
         name = doc.createElement('name')
         name_cdata = doc.createCDATASection(self.__name)
         name.appendChild(name_cdata)
@@ -64,3 +64,17 @@ class Car:
         brand.appendChild(brand_content)
         car.appendChild(brand)
         return car
+        
+'''    def to_xml_node(self, doc):
+       car = doc.createElement('car')
+       car.setAttribute('nb_doors', str(self.__nb_doors))
+       name = doc.createElement('name')
+       name.appendChild(doc.createCDATASection(self.__name))
+       car.appendChild(name)
+
+       brand = doc.createElement('brand')
+       brand.appendChild(doc.createTextNode(self.__brand))
+       car.appendChild(brand)
+
+       return car
+'''
