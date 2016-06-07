@@ -13,4 +13,4 @@ DELETE FROM EyesColor
 WHERE person_id = 'Walter';
 
 SELECT * FROM Person
-ORDER BY first_name;
+ORDER BY first_name ASC;
