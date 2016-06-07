@@ -8,7 +8,7 @@ ORDER BY Person.last_name;
 SELECT COUNT (age) FROM Person 
 Where age > 30;
 
-SELECT *
+SELECT Person.id, first_name, last_name, age, color, name
 FROM Person
 INNER JOIN EyesColor on Person.id = EyesColor.person_id
 INNER JOIN TVShowPerson on Person.id = TVShowPerson.person_id
