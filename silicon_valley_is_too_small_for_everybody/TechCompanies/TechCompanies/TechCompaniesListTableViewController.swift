@@ -12,7 +12,7 @@ class TechCompaniesListTableViewController: UITableViewController {
     var schoolList:[Entity]!
     var techCompanyList:[Entity]!
     var sectionNames:[String] = ["Schools", "TechCompanies"]
-    let techDetailSegue = "techDetailSg"
+    let techDetailSegue = "techDetailSegue"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -118,6 +118,7 @@ class TechCompaniesListTableViewController: UITableViewController {
                 // Pass the selected object to the new view controller.
                 if indexPath!.section == 0 {
                     destinationViewController.entity = schoolList[indexPath!.row]
+                    print(destinationViewController.entity.name)
                 }
                 else if indexPath!.section == 1 {
                     destinationViewController.entity = techCompanyList[indexPath!.row]

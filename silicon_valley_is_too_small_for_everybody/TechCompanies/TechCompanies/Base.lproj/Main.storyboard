@@ -66,7 +66,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="czB-Ms-sTm">
-                                <rect key="frame" x="0.0" y="40" width="600" height="40"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="600" id="Ivs-N9-820"/>
                                     <constraint firstAttribute="height" constant="40" id="brD-zx-Owl"/>
@@ -75,8 +75,8 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Nv0-VC-3U6">
-                                <rect key="frame" x="200" y="100" width="200" height="200"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Nv0-VC-3U6">
+                                <rect key="frame" x="200" y="138" width="200" height="200"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="bfC-TN-vV2"/>
                                     <constraint firstAttribute="width" constant="200" id="pdX-t7-ntZ"/>
@@ -86,8 +86,8 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="czB-Ms-sTm" firstAttribute="centerX" secondItem="DB0-ck-Jbk" secondAttribute="centerX" id="3VW-ez-koc"/>
-                            <constraint firstItem="czB-Ms-sTm" firstAttribute="top" secondItem="Jbh-pR-7zz" secondAttribute="bottom" constant="-24" id="7y3-76-BkN"/>
-                            <constraint firstItem="Nv0-VC-3U6" firstAttribute="top" secondItem="czB-Ms-sTm" secondAttribute="bottom" constant="20" id="Pi4-5c-H8S"/>
+                            <constraint firstItem="czB-Ms-sTm" firstAttribute="top" secondItem="Jbh-pR-7zz" secondAttribute="bottom" id="7y3-76-BkN"/>
+                            <constraint firstItem="Nv0-VC-3U6" firstAttribute="top" secondItem="czB-Ms-sTm" secondAttribute="bottom" constant="34" id="Pi4-5c-H8S"/>
                             <constraint firstItem="Nv0-VC-3U6" firstAttribute="centerX" secondItem="DB0-ck-Jbk" secondAttribute="centerX" id="tGK-dM-vdh"/>
                         </constraints>
                     </view>
