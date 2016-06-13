@@ -148,18 +148,14 @@ elif (sys.argv[1] == "change_batch"):
         print "Student not found"
 
 elif (sys.argv[1] == "print_all"):
-    schools = School.select()
-    for S in schools:
+    for S in School.select():
         print S
-    batches = Batch.select().where(Batch.school == School.id)
-    for b in batches:
-        print "\t" + str(batch)
-    students = Student.select().join(Batch).where(Batch.school == School.id, Student.batch == Batch.id)
-    for s in students:
-        print "\t\t" + str(s)
-    exercises = Exercise.select().where(Exercise.student == student.id)
-    for e in exercises:
-        print "\t\t\t" + str(e)
+        for b in Batch.select().where(Batch.school == S.id):
+            print "\t" + str(b)
+            for s in Student.select().where(Student.batch_id == b.id):
+                print "\t\t" + str(s)
+                for e in Exercise.select().where(Exercise.student == s.id):
+                    print "\t\t\t" + str(e)
 
 elif (sys.argv[1] == "note_average_by_student"):
      note = Exercise.select().join(Student).where(Student.id == sys.argv[2])
