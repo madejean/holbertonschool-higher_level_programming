@@ -34,8 +34,8 @@ elif (sys.argv[1] == "print"):
         pass
     else:
         if sys.argv[2] == "school":
-            for s in School.select():
-                print s
+            for S in School.select():
+                print S
         elif sys.argv[2] == "batch":
             for b in Batch.select():
                 print b
@@ -43,11 +43,11 @@ elif (sys.argv[1] == "print"):
             for u in Users.select():
                 print u
         elif sys.argv[2] == "student":
-            for student in Student.select():
-                print student
+            for s in Student.select():
+                print s
         elif sys.argv[2] == "exercise":
-            for exercises in Exercise.select():
-                print exercises
+            for e in Exercise.select():
+                print e
 
 elif (sys.argv[1] == "insert"):
     if len(sys.argv) < 3:
@@ -104,30 +104,31 @@ elif (sys.argv[1] == "delete"):
                 print student
             except:
                 print "Nothing to delete"
-        elif sys.argv[2] == "exercice":
-            print "hey"
-            e = Exercise.get(Exercise.id == sys.argv[3])
-            e.delete_instance()
+        elif sys.argv[2] == "exercise":
+            exercise = Exercise.get(Exercise.id == sys.argv[3])
+            exercise.delete_instance()
 
 
 elif (sys.argv[1] == "print_batch_by_school"):
     try:
-        print Batch.get(school_id == sys.argv[2] )
+        batch = Batch.get(id == sys.argv[2])
+        print batch
     except:
         print "School not found"
 
 elif (sys.argv[1] == "print_student_by_batch"):
     try:
-        for student in Student.select().where(Student.batch == sys.argv[2]):
-            print student
+        for s in Student.select().where(Student.batch == sys.argv[2]):
+		          print s
     except:
         print "Batch not found"
 
 elif (sys.argv[1] == "print_student_by_school"):
-    try:
-        for student in Student.select().join(Batch).where(Batch.school_id == sys.argv[2]):
-            print student
-    except:
+     try:
+        for b in Batch.select().where(Batch.school == sys.argv[2]):
+		          for s in Student.select().where(Student.batch == b):
+			                   print s
+     except:
         print "School not found"
 
 elif (sys.argv[1] == "print_family"):
@@ -139,59 +140,104 @@ elif (sys.argv[1] == "print_family"):
         print "Last name not found"
 
 elif (sys.argv[1] == "age_average"):
-    print Student.select(peewee.fn.Avg(Student.age)).scalar()
-
+    avg = Student.select(peewee.fn.Avg(Student.age)).scalar()
+    print "%d" % (avg)
 elif (sys.argv[1] == "change_batch"):
-    if sys.argv[2] == student.id:
-        print "%s already in %s" % (sys.argv[2], sys.argv[3])
+    student = Student.get(Student.id == sys.argv[2])
+    batch = Batch.get(Batch.id == sys.argv[3])
+    if student.batch == batch:
+        print "%s already in %s" % (student, batch)
     else:
-        print "Student not found"
+        print "%s has been moved to %s" % (student, batch)
+        student.batch = sys.argv[3]
+        student.save()
 
 elif (sys.argv[1] == "print_all"):
     for S in School.select():
         print S
-        for b in Batch.select().where(Batch.school == S.id):
+        for b in Batch.select().where(Batch.school == S):
             print "\t" + str(b)
-            for s in Student.select().where(Student.batch_id == b.id):
+            for s in Student.select().where(Student.batch_id == b):
                 print "\t\t" + str(s)
-                for e in Exercise.select().where(Exercise.student == s.id):
+                for e in Exercise.select().where(Exercise.student == s):
                     print "\t\t\t" + str(e)
 
 elif (sys.argv[1] == "note_average_by_student"):
-     note = Exercise.select().join(Student).where(Student.id == sys.argv[2])
-     for n in note:
-         print "%s: %s" % (n.subject, n.note)
+    if len(sys.argv) <= 2:
+        pass
+    try:
+        student = Student.get(Student.id == sys.argv[2])
+    except:
+        print "Student not found"
+        pass
+    grades = Exercise.select().where(Exercise.student == sys.argv[2]).group_by(Exercise.subject)
+    for n in grades:
+        avg = Exercise.select(peewee.fn.Avg(Exercise.note)).where(Exercise.student == sys.argv[2], Exercise.subject == n.subject).scalar()
+        print "%s: %g" % (n.subject,avg)
 
 elif (sys.argv[1] == "note_average_by_batch"):
-    note = Exercise.select().join(Batch).where(Batch.id == sys.argv[2])
-    for n in note:
-        print "%s: %s" % (n.subject, n.note)
+    if len(sys.argv) <= 2:
+        pass
+    try:
+        batch = Batch.get(Batch.id == sys.argv[2])
+    except:
+        print "Batch not found"
+        pass
+    grades = Exercise.select(Exercise.subject).join(Student).where(Student.batch == sys.argv[2]).group_by(Exercise.subject)
+    for n in grades:
+        avg = n.select(peewee.fn.Avg(Exercise.note)).join(Student, on=Exercise.student).where(Student.batch == sys.argv[2], Exercise.subject == n.subject).scalar()
+        print "%s: %g" % (n.subject, avg)
 
 elif (sys.argv[1] == "note_average_by_school"):
-    note = Exercise.select().join(School).where(School.id == sys.argv[2])
-    for n in note:
-        print "%s: %s" % (n.subjet, n.note)
-
-    """if sys.argv[2] == str(school.id):
-        student = Student.get(Student.id == sys.argv[3])
-        print Student.select(peewee.fn.Avg(Student.note)).scalar()
-    else:
+    if len(sys.argv) <= 2:
+        pass
+    try:
+        school = School.get(School.id == sys.argv[2])
+    except:
         print "School not found"
-"""
+        pass
+    grades = Exercise.select(Exercise.subject).join(Student, on=Exercise.student).join(Batch, on=Student.batch).where(Batch.school == sys.argv[2]).group_by(Exercise.subject)
+    for n in grades:
+        avg = n.select(peewee.fn.Avg(Exercise.note)).where(Exercise.subject == n.subject).scalar()
+        print "%s: %g" % (n.subject, avg)
 
 elif (sys.argv[1] == "top_batch"):
-    if sys.arv[2] == batch.id:
-        if sys.argv[3] == exercise.subject:
-            print Student.oder_by(Student.note)
-    else:
-        print "Batch not found"
+     if len(sys.argv) == 3:
+         try:
+             school = School.get(School.id == sys.argv[2])
+             student =Student.select(Student).join(Batch, on=Student.batch).join(Exercise, on=Exercise.student).where(Batch.school == school).group_by(Batch.school).having(Exercise.note == peewee.fn.MAX(Exercise.note))
+             for s in student:
+                 print "%s" % (s)
+         except:
+             print "School not found"
+     elif len(sys.argv) == 4:
+         try:
+             batch = Batch.get(Batch.id == sys.argv[2])
+             student = Student.select(Student).join(Exercise, on=Exercise.student).where(Student.batch == batch, Exercise.subject == sys.argv[3]).group_by(Student.batch).having(Exercise.note == peewee.fn.MAX(Exercise.note))
+             for s in student:
+                 print "%s" % (s)
+         except:
+             print "Batch not found"
+             pass
 
 elif (sys.argv[1] == "top_school"):
-      if sys.argv[2] == school.id:
-          if sys.argv[3] == subject:
-              print Student
-      else:
-          print "School not found"
+    if len(sys.argv) == 3:
+        try:
+            school = School.get(School.id == sys.argv[2])
+            student = Student.select(Student).join(Batch, on=Student.batch).join(Exercise, on=Exercise.student).where(Batch.school == school).group_by(Batch.school).having(Exercise.note == peewee.fn.MAX(Exercise.note))
+            for s in student:
+                print "%s" % (s)
+        except:
+            print "School not found"
+    elif len(sys.argv) == 4:
+        try:
+            school = School.get(School.id == sys.argv[2])
+            students =Student.select(Student).join(Batch, on=Student.batch).join(Exercise, on=Exercise.student).where(Batch.school == school, Exercise.subject == sys.argv[3]).group_by(Batch.school).having(Exercise.note == peewee.fn.MAX(Exercise.note))
+            for s in students:
+                print "%s" % (s)
+        except:
+            print "School not found"
+            pass
 
 elif (sys.argv[1] == "import_json"):
     school = School.select().get()
